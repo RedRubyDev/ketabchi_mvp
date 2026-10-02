@@ -1,0 +1,124 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+:root {
+  color-scheme: light;
+}
+
+@keyframes shimmer {
+  100% {
+    transform: translateX(-100%);
+  }
+}
+
+@layer base {
+  * {
+    @apply border-border;
+  }
+  body {
+    @apply bg-background text-ink font-sans antialiased;
+    direction: rtl;
+  }
+  /* Persian/Arabic numerals use lining figures nicely in Vazir */
+  h1 {
+    @apply text-h1;
+  }
+  h2 {
+    @apply text-h2;
+  }
+  h3 {
+    @apply text-h3;
+  }
+}
+
+@layer components {
+  .container-app {
+    @apply mx-auto w-full max-w-[1280px] px-4 sm:px-6 lg:px-8;
+  }
+  .card {
+    @apply rounded-lg border border-border bg-surface shadow-soft;
+  }
+  .link {
+    @apply text-primary hover:text-primary-hover transition-colors;
+  }
+  /* subtle scrollbar for horizontal rails */
+  .no-scrollbar::-webkit-scrollbar {
+    display: none;
+  }
+  .no-scrollbar {
+    -ms-overflow-style: none;
+    scrollbar-width: none;
+  }
+
+  /* ---- AI surfaces --------------------------------------------------- */
+  /* The one bold surface: a calm Persian "night" panel (deep green → warm
+     ink) where the AI constellation lives. Reserved for AI moments only. */
+  .ai-console {
+    background:
+      radial-gradient(
+        120% 90% at 85% -10%,
+        rgba(36, 87, 166, 0.35),
+        transparent 60%
+      ),
+      radial-gradient(
+        90% 80% at 10% 110%,
+        rgba(40, 89, 67, 0.55),
+        transparent 55%
+      ),
+      linear-gradient(155deg, #22402f 0%, #1b2a24 55%, #1a1816 100%);
+  }
+  /* Gilt tazhib-style hairline frame — the cultural accent, used sparingly. */
+  .hairline-gold {
+    box-shadow:
+      inset 0 0 0 1px rgba(200, 155, 60, 0.45),
+      inset 0 0 0 4px rgba(200, 155, 60, 0.1);
+  }
+  .ai-field {
+    @apply bg-white/[0.06] text-white placeholder:text-white/45;
+    border: 1px solid rgba(255, 255, 255, 0.14);
+  }
+  .ai-field:focus {
+    outline: none;
+    border-color: rgba(74, 127, 212, 0.8);
+    box-shadow: 0 0 0 4px rgba(36, 87, 166, 0.3);
+  }
+}
+
+@layer utilities {
+  .skeleton {
+    @apply relative overflow-hidden bg-border/60;
+  }
+  .skeleton::after {
+    content: "";
+    @apply absolute inset-0;
+    background: linear-gradient(
+      90deg,
+      transparent,
+      rgba(255, 255, 255, 0.55),
+      transparent
+    );
+    animation: shimmer 1.4s infinite;
+  }
+  .text-balance {
+    text-wrap: balance;
+  }
+  /* staggered reveal delays for the one orchestrated AI reveal */
+  .delay-0 { animation-delay: 0ms; }
+  .delay-1 { animation-delay: 90ms; }
+  .delay-2 { animation-delay: 180ms; }
+  .delay-3 { animation-delay: 270ms; }
+  .delay-4 { animation-delay: 360ms; }
+}
+
+/* Respect users who prefer reduced motion: keep meaning, drop movement. */
+@media (prefers-reduced-motion: reduce) {
+  *,
+  *::before,
+  *::after {
+    animation-duration: 0.001ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.001ms !important;
+    scroll-behavior: auto !important;
+  }
+}
